@@ -1,0 +1,49 @@
+import java.util.*;
+class Node {
+    int data;
+    Node left, right;
+
+    Node(int d)
+    {
+        data = d;
+        left = right = null;
+    }
+}
+class Solution {
+    public boolean isBalanced(Node root) {
+        // code here
+        Queue<Node> q = new ArrayDeque<>();
+        q.offer(root);
+        while(!q.isEmpty()){
+            Node node = q.poll();
+            int left = height(node.left);
+            int right = height(node.right);
+            int factor = Math.abs(left-right);
+            if(factor>1){
+                return false;
+            }
+            if(node.left!=null) q.offer(node.left);
+            if(node.right!=null) q.offer(node.right);
+        }
+        return true;
+    }
+    private static int height(Node root){
+        if(root==null){
+            return 0;
+        }
+        int left = height(root.left);
+        int right = height(root.right);
+        return 1+Math.max(left,right);
+    }
+public static void main(String[] args) {
+        Node root = new Node(1);
+        root.left = new Node(2);
+        root.right = new Node(3);
+        root.left.left = new Node(4);
+
+        Solution sol = new Solution();
+        boolean result = sol.isBalanced(root);
+
+        System.out.println("Is tree balanced? " + result);
+    }
+}
