@@ -1,0 +1,53 @@
+import java.util.*;
+class Node{
+    int data;
+    Node left, right;
+    Node(int d){
+        data=d;
+        left=right=null;
+    }
+}
+class Solution {
+    public boolean isIdentical(Node r1, Node r2) {
+        // code here
+        Queue<Node> q1 = new ArrayDeque<>();
+        Queue<Node> q2 = new ArrayDeque<>();
+        q1.offer(r1);
+        q2.offer(r2);
+        while(!q1.isEmpty() && !q2.isEmpty()){
+            Node n1 = q1.poll();
+            Node n2 = q2.poll();
+            if(n1.data!=n2.data){
+                return false;
+            }else if(n1.left!=null && n2.left==null || n1.left==null && n2.left!=null){
+                return false;
+            }else if(n1.right!=null && n2.right==null || n2.right==null && n2.right!=null){
+                return false;
+            }
+            if(n1.left!=null) q1.offer(n1.left);
+            if(n1.right!=null) q1.offer(n1.right);
+            if(n2.left!=null) q2.offer(n2.left);
+            if(n2.right!=null) q2.offer(n2.right);
+        }
+        return true;
+    }
+public static void main(String[] args) {
+        Solution sol = new Solution();
+        // Tree 1
+        Node r1 = new Node(1);
+        r1.left = new Node(2);
+        r1.right = new Node(3);
+        r1.left.left = new Node(4);
+        r1.left.right = new Node(5);
+
+        // Tree 2 (identical to Tree 1)
+        Node r2 = new Node(1);
+        r2.left = new Node(2);
+        r2.right = new Node(3);
+        r2.left.left = new Node(4);
+        r2.left.right = new Node(5);
+
+        boolean result = sol.isIdentical(r1, r2);
+        System.out.println("Are the two trees identical? " + result);
+    }
+}
