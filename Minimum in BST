@@ -1,0 +1,33 @@
+import java.util.*;
+class Node {
+    int data;
+    Node left;
+    Node right;
+    Node(int data) {
+        this.data = data;
+        left = null;
+        right = null;
+    }
+}
+class Solution {
+    public int minValue(Node root) {
+        // code here
+        Node temp = root;
+        int min =0;
+        while(temp!=null){
+            min=temp.data;
+            temp=temp.left;
+        }
+        return min;
+    }
+ public static void main(String[] args) {
+        Node root = new Node(8);
+        root.left = new Node(3);
+        root.right = new Node(10);
+        root.left.left = new Node(1);
+        root.left.right = new Node(6);
+
+        Solution sol = new Solution();
+        System.out.println(sol.minValue(root)); // Output: 1
+    }
+}
