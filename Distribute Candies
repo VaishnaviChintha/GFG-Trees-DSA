@@ -1,0 +1,44 @@
+import java.util.*;
+class Node {
+    int data;
+    Node left;
+    Node right;
+    Node(int data) {
+        this.data = data;
+        left = null;
+        right = null;
+    }
+}
+
+class Solution {
+    int moves=0;
+    public int distCandy(Node root) {
+        // code here
+        solve(root);
+        return moves;
+    }
+    private  int solve(Node node){
+        if(node==null) return 0;
+        int left_excess=solve(node.left);
+        int right_excess=solve(node.right);
+        moves+=Math.abs(left_excess)+Math.abs(right_excess);
+        return left_excess+right_excess+(node.data-1);
+    }
+}
+public class Main{
+ public static void main(String[] args) {
+        // Creating nodes
+        Node root = new Node(5);
+        root.left = new Node(0);
+        root.right = new Node(0);
+        root.right.left = new Node(0);
+        root.right.right = new Node(0);
+
+        // Calling solution
+        Solution sol = new Solution();
+        int result = sol.distCandy(root);
+
+        // Output
+        System.out.println("Minimum moves required: " + result);
+    }
+}
