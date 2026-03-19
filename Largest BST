@@ -1,0 +1,63 @@
+import java.util.*;
+class Node
+ {
+     int data;
+     Node left, right;
+
+     public Node(int d)
+     {
+         data = d;
+         left = right = null;
+     }
+ }
+
+class Solution {
+     static class Info{
+        boolean isBST;
+        int size;
+        int max;
+        int min;
+        public Info(int size,int min,int max,boolean isBST){
+            this.size=size;
+            this.min=min;
+            this.max=max;
+            this.isBST=isBST;
+        }
+    }
+    // Return the size of the largest sub-tree which is also a BST
+    static int largestBst(Node root) {
+        // Write your code here
+        return solve(root).size;
+    }
+   private static Info solve(Node root){
+       if(root==null){
+           return new Info(0,Integer.MAX_VALUE,Integer.MIN_VALUE,true);
+       }
+       Info left=solve(root.left);
+       Info right=solve(root.right);
+       if(left.isBST && right.isBST && root.data>left.max && root.data<right.min){
+           int size = left.size+right.size+1;
+           int min = Math.min(left.min,root.data);
+           int max = Math.max(right.max,root.data);
+           return new Info(size,min,max,true);
+       }
+       return new Info(Math.max(left.size,right.size),0,0,false);
+       
+   }
+}
+public class Main {
+    public static void main(String[] args) {
+
+        // Example 1:
+        // Tree: [5, 2, 4, 1, 3]
+        Node root = new Node(5);
+        root.left = new Node(2);
+        root.right = new Node(4);
+        root.left.left = new Node(1);
+        root.left.right = new Node(3);
+
+        int result = Solution.largestBst(root);
+        System.out.println("Largest BST size: " + result); // Expected: 3
+
+}
+}
