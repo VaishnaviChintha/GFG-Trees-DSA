@@ -1,0 +1,59 @@
+import java.util.*;
+class Node {
+    int data;
+    Node left, right;
+    Node(int x) {
+        data = x;
+        left = right = null;
+    }
+}  
+class Solution {
+    public ArrayList<Node> findPreSuc(Node root, int key) {
+        // code here
+        Node prev=null;
+        Node post = null;
+        Node node = root;
+        while(node!=null){
+            if(node.data<key){
+                prev=node;
+                node=node.right;
+            }else{
+                node=node.left;
+            }
+        }
+        node=root;
+        while(node!=null){
+            if(node.data>key){
+                post=node;
+                node=node.left;
+            }else{
+                node=node.right;
+            }
+        }
+        ArrayList<Node> res = new ArrayList<>();
+        res.add(prev);
+        res.add(post);
+        return res;
+    }
+}
+public class Main {
+    public static void main(String[] args) {
+        Node root = new Node(20);
+        root.left = new Node(10);
+        root.right = new Node(30);
+        root.right.left = new Node(25);
+
+        Solution sol = new Solution();
+
+        int key = 22;
+
+        ArrayList<Node> result = sol.findPreSuc(root, key);
+
+        Node pre = result.get(0);
+        Node suc = result.get(1);
+
+        System.out.println("Key: " + key);
+        System.out.println("Predecessor: " + (pre != null ? pre.data : "null"));
+        System.out.println("Successor: " + (suc != null ? suc.data : "null"));
+    }
+}
